@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPTool - System Performance Troubleshooting</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <h1>🔧 SPTool</h1>
+                <p>System Performance Troubleshooting Tool</p>
+            </div>
+            <div class="header-actions">
+                <button id="refreshBtn" class="btn btn-secondary">
+                    <span class="icon">🔄</span> Refresh
+                </button>
+                <button id="diagnosisBtn" class="btn btn-primary">
+                    <span class="icon">🔍</span> Run Full Diagnosis
+                </button>
+            </div>
+        </header>
+
+        <!-- Quick Symptom Input -->
+        <section class="symptom-section card">
+            <h2>🤔 What's the problem?</h2>
+            <div class="symptom-input-group">
+                <input 
+                    type="text" 
+                    id="symptomInput" 
+                    placeholder="e.g., My PC is slow, running out of disk space, internet not working..."
+                    class="symptom-input"
+                >
+                <button id="diagnoseSymptomBtn" class="btn btn-primary">Diagnose</button>
+            </div>
+            <div class="quick-symptoms">
+                <span class="label">Quick options:</span>
+                <button class="symptom-tag" data-symptom="my pc is slow">PC is slow</button>
+                <button class="symptom-tag" data-symptom="high memory usage">High memory</button>
+                <button class="symptom-tag" data-symptom="low disk space">Low disk space</button>
+                <button class="symptom-tag" data-symptom="network problems">Network issues</button>
+            </div>
+        </section>
+
+        <!-- System Overview -->
+        <section class="overview-section">
+            <div class="card system-info">
+                <h3>💻 System Information</h3>
+                <div id="systemInfo" class="info-grid">
+                    <div class="loading">Loading system information...</div>
+                </div>
+            </div>
+
+            <div class="card metrics-grid">
+                <div class="metric-card" id="cpuMetric">
+                    <div class="metric-icon">🖥️</div>
+                    <div class="metric-content">
+                        <div class="metric-label">CPU Usage</div>
+                        <div class="metric-value">--</div>
+                        <div class="metric-bar">
+                            <div class="metric-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-card" id="memoryMetric">
+                    <div class="metric-icon">💾</div>
+                    <div class="metric-content">
+                        <div class="metric-label">Memory Usage</div>
+                        <div class="metric-value">--</div>
+                        <div class="metric-bar">
+                            <div class="metric-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-card" id="diskMetric">
+                    <div class="metric-icon">💿</div>
+                    <div class="metric-content">
+                        <div class="metric-label">Disk Usage</div>
+                        <div class="metric-value">--</div>
+                        <div class="metric-bar">
+                            <div class="metric-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Issues Section -->
+        <section class="issues-section card">
+            <h3>⚠️ Detected Issues</h3>
+            <div id="issuesList" class="issues-list">
+                <div class="empty-state">
+                    <span class="icon">✅</span>
+                    <p>No issues detected. Run a full diagnosis to scan your system.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Top Processes -->
+        <section class="processes-section card">
+            <h3>📊 Top Processes</h3>
+            <div class="tabs">
+                <button class="tab active" data-tab="cpu">CPU</button>
+                <button class="tab" data-tab="memory">Memory</button>
+            </div>
+            <div id="processesTable" class="processes-table">
+                <div class="loading">Loading processes...</div>
+            </div>
+        </section>
+
+        <!-- Available Fixes -->
+        <section class="fixes-section card">
+            <h3>🛠️ Available System Fixes</h3>
+            <div id="fixesList" class="fixes-list">
+                <div class="loading">Loading available fixes...</div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal for fix confirmation -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>⚠️ Confirm Action</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="confirmMessage"></p>
+                <div class="command-preview">
+                    <strong>Command to execute:</strong>
+                    <code id="commandPreview"></code>
+                </div>
+                <div class="risk-warning" id="riskWarning" style="display: none;">
+                    <strong>⚠️ Risk Level:</strong> <span id="riskLevel"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="cancelBtn" class="btn btn-secondary">Cancel</button>
+                <button id="confirmExecuteBtn" class="btn btn-danger">Execute</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Result Modal -->
+    <div id="resultModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="resultTitle">Result</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="resultContent"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary modal-close">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
+
