@@ -7,6 +7,7 @@ from config import Config
 from system_diagnostics import SystemDiagnostics
 from command_executor import CommandExecutor
 from issue_diagnosis import IssueDiagnoser
+from chat_agent import ChatAgent
 import logging
 
 app = Flask(__name__)
@@ -16,6 +17,7 @@ app.config.from_object(Config)
 diagnostics = SystemDiagnostics()
 executor = CommandExecutor()
 diagnoser = IssueDiagnoser()
+chat_agent = ChatAgent()
 
 # Configure logging
 logging.basicConfig(
@@ -136,6 +138,62 @@ def validate_process(pid):
         return jsonify({'success': True, 'data': validation})
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/chat', methods=['POST'])
+def chat():
+    """Chat with AI agent"""
+    try:
+        data = request.get_json()
+        message = data.get('message', '')
+        include_context = data.get('include_context', True)
+        
+        if not message:
+            return jsonify({'success': False, 'error': 'No message provided'}), 400
+        
+        if not chat_agent.is_configured():
+            return jsonify({
+                'success': False,
+                'error': 'AI chat is not configured. Please add your OPENAI_API_KEY to the .env file.',
+                'response': None
+            }), 503
+        
+        result = chat_agent.chat(message, include_system_context=include_context)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/chat/reset', methods=['POST'])
+def reset_chat():
+    """Reset chat conversation history"""
+    try:
+        result = chat_agent.reset_conversation()
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/chat/analysis')
+def quick_analysis():
+    """Get quick AI analysis of system state"""
+    try:
+        if not chat_agent.is_configured():
+            return jsonify({
+                'success': False,
+                'error': 'AI chat is not configured.',
+                'response': None
+            }), 503
+        
+        result = chat_agent.get_quick_analysis()
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/chat/status')
+def chat_status():
+    """Check if chat is configured and available"""
+    return jsonify({
+        'configured': chat_agent.is_configured(),
+        'api_key_set': bool(Config.OPENAI_API_KEY)
+    })
 
 @app.route('/health')
 def health_check():
