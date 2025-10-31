@@ -1,0 +1,159 @@
+╔═══════════════════════════════════════════════════════════════════╗
+║                                                                   ║
+║   🔧 SPTool - System Performance Troubleshooting Tool            ║
+║                                                                   ║
+║   Installation & Quick Start Guide                               ║
+║                                                                   ║
+╚═══════════════════════════════════════════════════════════════════╝
+
+📦 INSTALLATION (3 Steps)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Step 1: Navigate to Project Directory
+  $ cd /home/xeleon/Documents/MVP-MicrosoftDragonsDen
+
+Step 2: Install Dependencies
+  $ pip install -r requirements.txt
+
+  OR use the setup script:
+  $ chmod +x setup.sh
+  $ ./setup.sh
+
+Step 3: Run the Application
+  $ python app.py
+
+  OR with sudo (for privileged commands):
+  $ sudo python app.py
+
+✅ Done! Open browser: http://127.0.0.1:5000
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🧪 TESTING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Run basic tests:
+  $ python test_basic.py
+
+Check syntax:
+  $ python -m py_compile *.py
+
+Test API endpoint:
+  $ curl http://127.0.0.1:5000/health
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📚 DOCUMENTATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  README.md           - Comprehensive project documentation
+  QUICKSTART.md       - Quick start guide with examples
+  ARCHITECTURE.md     - Technical architecture deep-dive
+  PROJECT_SUMMARY.md  - Project overview and statistics
+  DEMO_GUIDE.md       - Presentation and demo script
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚡ QUICK DEMO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Start server: python app.py
+2. Open: http://127.0.0.1:5000
+3. Type symptom: "my pc is slow"
+4. Click: "Diagnose"
+5. Review issues and click fix buttons
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔧 TROUBLESHOOTING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Issue: "Module not found"
+  → pip install -r requirements.txt --upgrade
+
+Issue: "Port 5000 already in use"
+  → Edit .env and change PORT=8080
+
+Issue: "Permission denied"
+  → Some fixes need sudo: sudo python app.py
+
+Issue: "Can't connect to server"
+  → Check if running: curl http://127.0.0.1:5000/health
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📁 PROJECT STRUCTURE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+MVP-MicrosoftDragonsDen/
+├── app.py                   # Flask backend & API
+├── config.py                # Configuration
+├── system_diagnostics.py    # System data collection
+├── command_executor.py      # Safe command execution
+├── issue_diagnosis.py       # Issue detection logic
+├── requirements.txt         # Dependencies
+├── setup.sh                 # Installation script
+├── test_basic.py            # Test suite
+├── templates/
+│   └── index.html          # Web UI
+└── static/
+    ├── css/styles.css      # Styling
+    └── js/app.js           # Frontend logic
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✨ FEATURES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Real-time system monitoring (CPU, Memory, Disk)
+✅ Natural language symptom diagnosis
+✅ One-click command execution
+✅ Process management (view & kill)
+✅ Security: Command whitelisting
+✅ Comprehensive action logging
+✅ Cross-platform (Linux/Windows)
+✅ Modern, responsive web UI
+✅ RESTful API
+✅ Microsoft integration ready
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔐 SECURITY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+• Whitelisted commands only (no arbitrary execution)
+• User confirmation required for all fixes
+• Risk level indicators (none/low/medium/high)
+• Full action logging with timestamps
+• Parameter validation and sanitization
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 NEXT STEPS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Install dependencies (see above)
+2. Run the application
+3. Test basic functionality
+4. Read QUICKSTART.md for examples
+5. Review DEMO_GUIDE.md for presentation
+6. Explore the code and customize
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📧 SUPPORT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+• Check README.md for detailed documentation
+• Review ARCHITECTURE.md for technical details
+• Run test_basic.py to verify installation
+• Check logs: sptool_actions.log
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Built for Microsoft Dragons Den MVP Challenge
+Version 1.0.0 | October 2025
+
+🔧 Making system troubleshooting simple and safe.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
