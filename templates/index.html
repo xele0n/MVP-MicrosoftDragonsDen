@@ -37,7 +37,7 @@
             </div>
         </header>
 
-        <!-- Quick Symptom Input -->
+        <!-- Quick Symptom Input with AI Chat -->
         <section class="symptom-section card">
             <h2>Describe the Issue</h2>
             <div class="symptom-input-group">
@@ -48,6 +48,7 @@
                     class="symptom-input"
                 >
                 <button id="diagnoseSymptomBtn" class="btn btn-primary">Diagnose</button>
+                <button id="askAiBtn" class="btn btn-secondary">Ask AI</button>
             </div>
             <div class="quick-symptoms">
                 <span class="label">Quick options:</span>
@@ -55,6 +56,26 @@
                 <button class="symptom-tag" data-symptom="high memory usage">High memory</button>
                 <button class="symptom-tag" data-symptom="low disk space">Low disk space</button>
                 <button class="symptom-tag" data-symptom="network problems">Network issues</button>
+            </div>
+            
+            <!-- Integrated AI Chat -->
+            <div id="integratedChat" class="integrated-chat" style="display: none;">
+                <div class="chat-header-inline">
+                    <span class="chat-icon-inline">AI</span>
+                    <span class="chat-title-inline">SPTool AI Assistant</span>
+                    <button id="closeChatInline" class="chat-close-inline">&times;</button>
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="chat-welcome-inline">
+                        <p><strong>Hello! I'm your AI troubleshooting assistant.</strong></p>
+                        <p>Ask me anything about your system issues, and I'll help you diagnose and fix them.</p>
+                    </div>
+                </div>
+                <div class="chat-input-inline">
+                    <input type="text" id="chatInputInline" class="chat-input-field" placeholder="Ask me about your system issue..." />
+                    <button id="chatSendInline" class="chat-send-inline">Send</button>
+                </div>
+                <div class="chat-status-inline" id="chatStatusInline"></div>
             </div>
         </section>
 
@@ -170,42 +191,6 @@
             </div>
         </div>
     </div>
-
-    <!-- AI Chat Widget -->
-    <div id="chatWidget" class="chat-widget">
-        <div class="chat-header">
-            <div class="chat-title">
-                <span class="chat-icon">AI</span>
-                <span>SPTool Assistant</span>
-            </div>
-            <div class="chat-controls">
-                <button id="chatMinimize" class="chat-control-btn" title="Minimize">_</button>
-                <button id="chatClose" class="chat-control-btn" title="Close">&times;</button>
-            </div>
-        </div>
-        <div class="chat-body" id="chatBody">
-            <div class="chat-welcome">
-                <p><strong>Hello! I'm your AI troubleshooting assistant.</strong></p>
-                <p>I can help you diagnose and fix system issues. Ask me anything!</p>
-                <div class="chat-quick-actions">
-                    <button class="chat-quick-btn" data-message="Analyze my system performance">Quick Analysis</button>
-                    <button class="chat-quick-btn" data-message="My computer is running slow">Computer is slow</button>
-                    <button class="chat-quick-btn" data-message="How do I free up disk space?">Free disk space</button>
-                </div>
-            </div>
-        </div>
-        <div class="chat-input-container">
-            <input type="text" id="chatInput" class="chat-input" placeholder="Ask me anything..." />
-            <button id="chatSend" class="chat-send-btn">Send</button>
-        </div>
-        <div class="chat-status" id="chatStatus"></div>
-    </div>
-
-    <!-- Chat Toggle Button -->
-    <button id="chatToggle" class="chat-toggle-btn" title="Open AI Assistant">
-        <span class="chat-toggle-icon">AI</span>
-        <span class="chat-toggle-text">Ask AI</span>
-    </button>
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>

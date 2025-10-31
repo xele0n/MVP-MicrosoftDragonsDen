@@ -490,52 +490,47 @@ class SPTool {
 // Initialize the application
 const app = new SPTool();
 
-// Chat Widget Functionality
-class ChatWidget {
+// Integrated Chat Functionality
+class IntegratedChat {
     constructor() {
-        this.widget = document.getElementById('chatWidget');
-        this.toggleBtn = document.getElementById('chatToggle');
-        this.closeBtn = document.getElementById('chatClose');
-        this.minimizeBtn = document.getElementById('chatMinimize');
-        this.chatBody = document.getElementById('chatBody');
-        this.chatInput = document.getElementById('chatInput');
-        this.sendBtn = document.getElementById('chatSend');
-        this.statusEl = document.getElementById('chatStatus');
+        this.chatContainer = document.getElementById('integratedChat');
+        this.askAiBtn = document.getElementById('askAiBtn');
+        this.closeBtn = document.getElementById('closeChatInline');
+        this.chatMessages = document.getElementById('chatMessages');
+        this.chatInput = document.getElementById('chatInputInline');
+        this.sendBtn = document.getElementById('chatSendInline');
+        this.statusEl = document.getElementById('chatStatusInline');
         this.isOpen = false;
-        this.isMinimized = false;
         
         this.bindEvents();
         this.checkChatStatus();
     }
     
     bindEvents() {
-        // Toggle button
-        this.toggleBtn.addEventListener('click', () => this.toggle());
+        // Ask AI button
+        if (this.askAiBtn) {
+            this.askAiBtn.addEventListener('click', () => this.toggle());
+        }
         
         // Close button
-        this.closeBtn.addEventListener('click', () => this.close());
-        
-        // Minimize button
-        this.minimizeBtn.addEventListener('click', () => this.toggleMinimize());
+        if (this.closeBtn) {
+            this.closeBtn.addEventListener('click', () => this.close());
+        }
         
         // Send button
-        this.sendBtn.addEventListener('click', () => this.sendMessage());
+        if (this.sendBtn) {
+            this.sendBtn.addEventListener('click', () => this.sendMessage());
+        }
         
         // Enter key in input
-        this.chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                this.sendMessage();
-            }
-        });
-        
-        // Quick action buttons
-        document.querySelectorAll('.chat-quick-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const message = btn.dataset.message;
-                this.sendMessage(message);
+        if (this.chatInput) {
+            this.chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    this.sendMessage();
+                }
             });
-        });
+        }
     }
     
     async checkChatStatus() {
@@ -545,8 +540,13 @@ class ChatWidget {
             
             if (!data.configured) {
                 this.showStatus('AI chat not configured. Add OPENAI_API_KEY to .env file.');
-                this.toggleBtn.style.opacity = '0.5';
-                this.sendBtn.disabled = true;
+                if (this.askAiBtn) {
+                    this.askAiBtn.disabled = true;
+                    this.askAiBtn.title = 'AI not configured';
+                }
+                if (this.sendBtn) {
+                    this.sendBtn.disabled = true;
+                }
             } else {
                 this.showStatus('AI Assistant ready');
             }
@@ -564,28 +564,27 @@ class ChatWidget {
     }
     
     open() {
-        this.widget.classList.add('open');
-        this.widget.classList.remove('minimized');
-        this.toggleBtn.style.display = 'none';
-        this.isOpen = true;
-        this.isMinimized = false;
-        this.chatInput.focus();
+        if (this.chatContainer) {
+            this.chatContainer.style.display = 'block';
+            this.isOpen = true;
+            setTimeout(() => {
+                if (this.chatInput) {
+                    this.chatInput.focus();
+                }
+            }, 400);
+        }
     }
     
     close() {
-        this.widget.classList.remove('open');
-        this.toggleBtn.style.display = 'flex';
-        this.isOpen = false;
-        this.isMinimized = false;
-    }
-    
-    toggleMinimize() {
-        if (this.isMinimized) {
-            this.widget.classList.remove('minimized');
-            this.isMinimized = false;
-        } else {
-            this.widget.classList.add('minimized');
-            this.isMinimized = true;
+        if (this.chatContainer) {
+            this.chatContainer.style.display = 'none';
+            this.isOpen = false;
+            // Clear messages except welcome
+            const welcome = this.chatMessages.querySelector('.chat-welcome-inline');
+            if (this.chatMessages && welcome) {
+                this.chatMessages.innerHTML = '';
+                this.chatMessages.appendChild(welcome);
+            }
         }
     }
     
@@ -648,8 +647,10 @@ class ChatWidget {
             <div class="chat-message-time">${time}</div>
         `;
         
-        this.chatBody.appendChild(messageEl);
-        this.scrollToBottom();
+        if (this.chatMessages) {
+            this.chatMessages.appendChild(messageEl);
+            this.scrollToBottom();
+        }
     }
     
     formatMessage(text) {
@@ -670,8 +671,10 @@ class ChatWidget {
             <div class="chat-typing-dot"></div>
             <div class="chat-typing-dot"></div>
         `;
-        this.chatBody.appendChild(typingEl);
-        this.scrollToBottom();
+        if (this.chatMessages) {
+            this.chatMessages.appendChild(typingEl);
+            this.scrollToBottom();
+        }
     }
     
     hideTyping() {
@@ -685,21 +688,30 @@ class ChatWidget {
         const errorEl = document.createElement('div');
         errorEl.className = 'chat-error';
         errorEl.textContent = message;
-        this.chatBody.appendChild(errorEl);
-        this.scrollToBottom();
+        if (this.chatMessages) {
+            this.chatMessages.appendChild(errorEl);
+            this.scrollToBottom();
+        }
     }
     
     showStatus(message) {
-        this.statusEl.textContent = message;
+        if (this.statusEl) {
+            this.statusEl.textContent = message;
+        }
     }
     
     scrollToBottom() {
         setTimeout(() => {
-            this.chatBody.scrollTop = this.chatBody.scrollHeight;
+            if (this.chatMessages) {
+                this.chatMessages.scrollTo({
+                    top: this.chatMessages.scrollHeight,
+                    behavior: 'smooth'
+                });
+            }
         }, 100);
     }
 }
 
-// Initialize chat widget
-const chat = new ChatWidget();
+// Initialize integrated chat
+const chat = new IntegratedChat();
 
